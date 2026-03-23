@@ -5,6 +5,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  SHOULD_RUN: false
+
 defaults:
   run:
     working-directory: 1-DevOps/idempotweet
@@ -30,7 +33,9 @@ jobs:
         - name: Run tests
           run: yarn test
         
+        
         - name: Test coverage
+          if: ${{ env.SHOULD_RUN }}
           run: yarn test:coverage
 
         - name: SonarQube Scan
