@@ -1,0 +1,39 @@
+name: Continuous Integration
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: 1-DevOps/idempotweet
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Set up Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: '22.21.1'
+            cache: 'yarn'
+            
+        - name: Install dependencies
+          run: yarn install
+        
+        - name: Run tests
+          run: yarn test
+        
+        - name: Test coverage
+          run: yarn test:coverage
+
+        - name: SonarQube Scan
+          uses: SonarSource/sonarqube-scan-action@v6
+          with:
+            projectBaseDir: 1-DevOps/idempotweet
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
