@@ -1,12 +1,14 @@
 name: Continuous Integration
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
-
-env:
-  SHOULD_RUN: 'false'
+  workflow_call:
+    inputs:
+      SHOULD_RUN:
+        description: 'Whether to run the tests or not'
+        required: false
+        default: 'true'
+        type: string
 
 defaults:
   run:
@@ -34,7 +36,7 @@ jobs:
           run: yarn test
         
         - name: Test coverage
-          if: ${{ env.SHOULD_RUN == 'true' }}
+          if: ${{ inputs.SHOULD_RUN == 'true' }}
           run: yarn test:coverage
 
         - name: SonarQube Scan
