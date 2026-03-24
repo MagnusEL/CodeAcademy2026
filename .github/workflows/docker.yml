@@ -36,13 +36,13 @@ jobs:
               with:
                 registry: ${{ env.REGISTRY }}
                 username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
+                password: ${{ github.token }}
             
             - name: Docker metadata
               uses: docker/metadata-action@v5
               id: meta
               with:
-                images: ${{ env.IMAGE_NAME }}
+                images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
                 tags: |
                   type=raw,value=latest
                   type=sha,prefix=sha-
