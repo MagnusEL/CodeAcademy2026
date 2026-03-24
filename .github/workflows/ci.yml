@@ -9,6 +9,13 @@ on:
         required: false
         default: 'true'
         type: string
+    secrets:
+      SONAR_TOKEN:
+        description: 'SonarQube token for authentication'
+        required: true
+      SONAR_HOST_URL:
+        description: 'SonarQube server URL'
+        required: true
 
 defaults:
   run:
